@@ -3,9 +3,11 @@ package com.example.oauth.controller;
 import com.example.oauth.dto.request.auth.CheckCertificationRequestDto;
 import com.example.oauth.dto.request.auth.EmailCertificationRequestDto;
 import com.example.oauth.dto.request.auth.IdCheckRequestDto;
+import com.example.oauth.dto.request.auth.SignUpRequestDto;
 import com.example.oauth.dto.response.auth.CheckCertificationResponseDto;
 import com.example.oauth.dto.response.auth.EmailCertificationResponseDto;
 import com.example.oauth.dto.response.auth.IdCheckResponseDto;
+import com.example.oauth.dto.response.auth.SignUpResponseDto;
 import com.example.oauth.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +48,16 @@ public class AuthController {
             CheckCertificationRequestDto requestBody
     ) {
         ResponseEntity<? super CheckCertificationResponseDto> response = authService.checkCertification(requestBody);
+        return response;
+    }
+
+    @PostMapping("/sign-up")
+    public ResponseEntity<? super SignUpResponseDto> signup(
+            @RequestBody
+            @Valid
+            SignUpRequestDto requestBody
+            ) {
+        ResponseEntity<? super SignUpResponseDto> response = authService.signUp(requestBody);
         return response;
     }
 }
