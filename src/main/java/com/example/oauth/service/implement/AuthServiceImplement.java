@@ -1,18 +1,13 @@
 package com.example.oauth.service.implement;
 
 import com.example.oauth.common.CertificationNumber;
-import com.example.oauth.dto.request.auth.CheckCertificationRequestDto;
-import com.example.oauth.dto.request.auth.EmailCertificationRequestDto;
-import com.example.oauth.dto.request.auth.IdCheckRequestDto;
-import com.example.oauth.dto.request.auth.SignUpRequestDto;
+import com.example.oauth.dto.request.auth.*;
 import com.example.oauth.dto.response.ResponseDto;
-import com.example.oauth.dto.response.auth.CheckCertificationResponseDto;
-import com.example.oauth.dto.response.auth.EmailCertificationResponseDto;
-import com.example.oauth.dto.response.auth.IdCheckResponseDto;
-import com.example.oauth.dto.response.auth.SignUpResponseDto;
+import com.example.oauth.dto.response.auth.*;
 import com.example.oauth.entity.CertificationEntity;
 import com.example.oauth.entity.UserEntity;
 import com.example.oauth.provider.EmailProvider;
+import com.example.oauth.provider.JwtProvider;
 import com.example.oauth.repository.CertificationRepository;
 import com.example.oauth.repository.UserRepository;
 import com.example.oauth.service.AuthService;
@@ -28,6 +23,8 @@ public class AuthServiceImplement implements AuthService {
 
     private final UserRepository userRepository;
     private final CertificationRepository certificationRepository;
+
+    private final JwtProvider jwtProvider;
     private final EmailProvider emailProvider;
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -130,6 +127,31 @@ public class AuthServiceImplement implements AuthService {
         }
 
         return SignUpResponseDto.success();
+    }
+
+    @Override
+    public ResponseEntity<? super SignInResponseDto> signIn(SignInRequestDto dto) {
+
+        String token = null;
+
+        try {
+
+            String userId = dto.getId();
+            UserEntity userEntity = userRepository.findByUserId(userId);
+            if (userEntity == null) SignInResponseDto.signInFail();
+
+            String password = dto.getPassword();
+            String encodedPassword = userEntity.getPassword();
+            boolean isMatched = passwordEncoder.matches(password, encodedPassword);
+            if(!isMatched) return SignInResponseDto.signInFail();
+
+            token = jwtProvider.create(userId);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return SignInResponseDto.success(token);
     }
 
 
