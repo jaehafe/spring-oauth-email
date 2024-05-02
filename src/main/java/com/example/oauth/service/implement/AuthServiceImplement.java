@@ -26,7 +26,7 @@ public class AuthServiceImplement implements AuthService {
 
     private final JwtProvider jwtProvider;
     private final EmailProvider emailProvider;
-    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
     @Override
@@ -153,6 +153,4 @@ public class AuthServiceImplement implements AuthService {
 
         return SignInResponseDto.success(token);
     }
-
-
 }

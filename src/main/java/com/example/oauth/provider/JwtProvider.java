@@ -24,8 +24,10 @@ public class JwtProvider {
         Key keys = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
 
         return Jwts.builder()
-                .signWith(keys, SignatureAlgorithm.ES256)
-                .setSubject(userId).setIssuedAt(new Date()).setExpiration(expiredDate)
+                .signWith(keys, SignatureAlgorithm.HS256)
+                .setSubject(userId)
+                .setIssuedAt(new Date())
+                .setExpiration(expiredDate)
                 .compact();
     }
 
