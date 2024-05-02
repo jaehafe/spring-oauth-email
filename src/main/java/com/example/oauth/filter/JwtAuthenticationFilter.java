@@ -48,7 +48,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 return;
             }
 
-            UserEntity userEntity = userRepository.findUserId(userId);
+            UserEntity userEntity = userRepository.findByUserId(userId);
             String role = userEntity.getRole(); // role = ROLE_USER ROLE_ADMIN
 
             // 권한 설정
