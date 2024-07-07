@@ -28,4 +28,9 @@ public class SignUpResponseDto extends ResponseDto {
         ResponseDto responseBody = new ResponseDto(ResponseCode.CERTIFICATION_FAIL, ResponseMessage.CERTIFICATION_FAIL);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseBody);
     }
+
+    public static ResponseEntity<ResponseDto> certificationNotFound() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.CERTIFICATION_FAIL, ResponseMessage.CERTIFICATION_NULL);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseBody);
+    }
 }

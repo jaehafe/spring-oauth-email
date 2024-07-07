@@ -99,7 +99,6 @@ public class AuthServiceImplement implements AuthService {
     public ResponseEntity<? super SignUpResponseDto> signUp(SignUpRequestDto dto) {
 
         try {
-
             String userId = dto.getId();
             boolean isExisted = userRepository.existsByUserId(userId);
             if(isExisted) return SignUpResponseDto.duplicatedId();
@@ -108,6 +107,10 @@ public class AuthServiceImplement implements AuthService {
             String certificationNumber = dto.getCertificationNumber();
 
             CertificationEntity certificationEntity = certificationRepository.findByUserId(userId);
+            if (certificationEntity == null) {
+                return SignUpResponseDto.certificationNotFound();
+            }
+
             boolean isMatched = certificationEntity.getEmail().equals(email)
                     && certificationEntity.getCertificationNumber().equals(certificationNumber);
             if(!isMatched) return SignUpResponseDto.certificationFail();
