@@ -7,6 +7,9 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,10 +22,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -31,8 +30,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtProvider jwtProvider;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+            FilterChain filterChain) throws ServletException, IOException {
 
         try {
 
@@ -60,9 +59,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             // context 생성
             SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
-            AbstractAuthenticationToken authenticationToken =
-                    new UsernamePasswordAuthenticationToken(userId, null, authorities);
-            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            AbstractAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                    userId, null, authorities);
+            authenticationToken.setDetails(
+                    new WebAuthenticationDetailsSource().buildDetails(request));
 
             securityContext.setAuthentication(authenticationToken);
             SecurityContextHolder.setContext(securityContext);
@@ -79,10 +79,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String authorization = request.getHeader("Authorization");
 
         boolean hasAuthorization = StringUtils.hasText(authorization);
-        if(!hasAuthorization) return null;
+        if (!hasAuthorization) {
+            return null;
+        }
 
         boolean isBearer = authorization.startsWith("Bearer ");
-        if(!isBearer) return null;
+        if (!isBearer) {
+            return null;
+        }
 
         return authorization.substring(7);
     }

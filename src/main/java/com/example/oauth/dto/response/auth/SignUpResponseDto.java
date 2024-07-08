@@ -20,17 +20,20 @@ public class SignUpResponseDto extends ResponseDto {
     }
 
     public static ResponseEntity<ResponseDto> duplicatedId() {
-        ResponseDto responseBody = new ResponseDto(ResponseCode.DUPLICATE_ID, ResponseMessage.DUPLICATE_ID);
+        ResponseDto responseBody = new ResponseDto(ResponseCode.DUPLICATE_ID,
+                ResponseMessage.DUPLICATE_ID);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 
     public static ResponseEntity<ResponseDto> certificationFail() {
-        ResponseDto responseBody = new ResponseDto(ResponseCode.CERTIFICATION_FAIL, ResponseMessage.CERTIFICATION_FAIL);
+        ResponseDto responseBody = new ResponseDto(ResponseCode.CERTIFICATION_FAIL,
+                ResponseMessage.CERTIFICATION_FAIL);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseBody);
     }
 
     public static ResponseEntity<ResponseDto> certificationNotFound() {
-        ResponseDto responseBody = new ResponseDto(ResponseCode.CERTIFICATION_FAIL, ResponseMessage.CERTIFICATION_NULL);
+        ResponseDto responseBody = new ResponseDto(ResponseCode.CERTIFICATION_FAIL,
+                ResponseMessage.CERTIFICATION_NULL);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseBody);
     }
 }

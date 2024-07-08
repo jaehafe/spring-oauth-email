@@ -20,12 +20,14 @@ public class EmailCertificationResponseDto extends ResponseDto {
     }
 
     public static ResponseEntity<ResponseDto> duplicatedId() {
-        ResponseDto responseBody = new ResponseDto(ResponseCode.DUPLICATE_ID, ResponseMessage.DUPLICATE_ID);
+        ResponseDto responseBody = new ResponseDto(ResponseCode.DUPLICATE_ID,
+                ResponseMessage.DUPLICATE_ID);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 
-        public static ResponseEntity<ResponseDto> mailSendFail() {
-        ResponseDto responseBody = new ResponseDto(ResponseCode.MAIL_FAIL, ResponseMessage.MAIL_FAIL);
+    public static ResponseEntity<ResponseDto> mailSendFail() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.MAIL_FAIL,
+                ResponseMessage.MAIL_FAIL);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
     }
 }
